@@ -11,6 +11,8 @@ using UnityEngine.Networking;
 
 using System.Runtime.Serialization;
 
+using GeneralPurpose;
+
 [DataContract]
 public class Username
 {
@@ -20,25 +22,6 @@ public class Username
 
 namespace JsonTestApp
 {
-
-
-public static class JsonUtils
-{
-    /// <summary>
-    /// JSONからオブジェクトへ変換します
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="json">オブジェクトへ変換するJSON</param>
-    /// <returns>オブジェクト</returns>
-    public static T ToObject<T>(string json)
-    {
-        using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(json)))
-        {
-            var serializer = new DataContractJsonSerializer(typeof(T));
-            return (T)serializer.ReadObject(ms);
-        }
-    }
-}
 
 
 public class Abc : MonoBehaviour
