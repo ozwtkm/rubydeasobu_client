@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuWindow : MonoBehaviour
+public class DisplayUserInho : MonoBehaviour
 {
     private GUIStyle style;
 
@@ -22,7 +22,8 @@ public class MenuWindow : MonoBehaviour
     void OnGUI () {
         Rect rect = new Rect(10, 10, 400, 300);
 
-        // ラベルを表示する
-        GUI.Label(rect, "Ruby Quest Monsters Ultra Light", style);
+        string username = PlayerPrefs.GetString("session_id");
+
+        GUI.Label(rect, username, style);
     }
 }

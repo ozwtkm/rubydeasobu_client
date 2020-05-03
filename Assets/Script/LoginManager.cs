@@ -8,13 +8,14 @@ using GeneralPurpose;
 using System.Text;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using System.Text.RegularExpressions;
 
  
 public class LoginManager : MonoBehaviour {
- 
+
 	// Use this for initialization
 	void Start () {
-		
+
 	}
 	
 	// Update is called once per frame
@@ -51,8 +52,21 @@ public class LoginManager : MonoBehaviour {
         request.SetRequestHeader("Content-Type", "application/json");
 
         yield return request.Send();
-
+        
+        //object aa = request.downloadHandler.get_data();
+        Dbg.s(request.GetResponseHeader("Set-cookie"));
         //Debug.Log("Status Code: " + request.responseCode);
+
+        string setcookieheader = request.GetResponseHeader("Set-cookie");
+    
+        // To Do: 正規表現ちゃんと考える
+        Match matche = Regex.Match(setcookieheader, "session_id=(.*)");
+        
+        string cookie = matche.Groups[1].Value;
+
+        // to do: cookieの管理方法ちゃんと調べる
+        PlayerPrefs.SetString("session_id", cookie);
+        string af= PlayerPrefs.GetString("session_id");
 
         DataContractJsonSerializerSettings settings = new DataContractJsonSerializerSettings();
         settings.MaxItemsInObjectGraph = 10; 
@@ -64,6 +78,8 @@ public class LoginManager : MonoBehaviour {
             Username data = JsonUtils.ToObject<Username>(json);
 
             Messageobj.text = "ようこそ " + data.username + " !!";
+
+            PlayerPrefs.SetString("username", data.username);
 
             print("LOGIN");
         }else{ // todo 配列で返ってきたパターンでちゃんと表示できるようにする
