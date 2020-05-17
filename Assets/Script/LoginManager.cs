@@ -52,10 +52,6 @@ public class LoginManager : MonoBehaviour {
         request.SetRequestHeader("Content-Type", "application/json");
 
         yield return request.Send();
-        
-        //object aa = request.downloadHandler.get_data();
-        Dbg.s(request.GetResponseHeader("Set-cookie"));
-        //Debug.Log("Status Code: " + request.responseCode);
 
         string setcookieheader = request.GetResponseHeader("Set-cookie");
     
@@ -66,7 +62,6 @@ public class LoginManager : MonoBehaviour {
 
         // to do: cookieの管理方法ちゃんと調べる
         PlayerPrefs.SetString("session_id", cookie);
-        string af= PlayerPrefs.GetString("session_id");
 
         DataContractJsonSerializerSettings settings = new DataContractJsonSerializerSettings();
         settings.MaxItemsInObjectGraph = 10; 
