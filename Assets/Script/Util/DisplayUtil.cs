@@ -16,6 +16,7 @@ public class DisplayUtil : MonoBehaviour
     private const int WALLET = 0;
     private const int MONSTER = 1;
     private const int USERNAME = 2;
+    private const int GACHA = 3;
 
     // ライブラリ的に扱う想定なのでこいつ自身が何かを呼ぶのでなく他オブジェクトからwrappedgetandrenderinfoを叩く形で使う
     void Start()
@@ -48,6 +49,10 @@ public class DisplayUtil : MonoBehaviour
                 break;
             case USERNAME:
                 displayhandler = new DisplayUsernameInfoHandler();
+                return displayhandler;
+                break;
+            case GACHA:
+                displayhandler = new DisplayGachaInfoHandler();
                 return displayhandler;
                 break;
             default:
@@ -128,6 +133,15 @@ public class Monster{
     public int atk;
 }
 
+[DataContract]
+public class Gacha{
+    [DataMember]
+    public int id;
+
+    [DataMember]
+    public string name; 
+}
+
 
 
 public abstract class DisplayHandler{
@@ -185,7 +199,7 @@ public class DisplayWalletInfoHandler : DisplayHandler{
 
 
 
-
+//Todo ページング
 public class DisplayMonsterInfoHandler : DisplayHandler{
     public DisplayMonsterInfoHandler(){
         url = "http://rqmul.wfm.jp/monsters/0";
@@ -234,5 +248,40 @@ public class DisplayUsernameInfoHandler : DisplayHandler{
         Text Messageobj = GameObject.Find("Username").GetComponent<Text>();
 
         Messageobj.text = message;
+    }
+}
+
+
+
+public class DisplayGachaInfoHandler : DisplayHandler{
+    public DisplayGachaInfoHandler(){
+        url = "http://rqmul.wfm.jp/gacha";
+    }
+
+    public override void render(){
+        string json = request.downloadHandler.text;
+ 
+        DataContractJsonSerializerSettings settings = new DataContractJsonSerializerSettings();
+        settings.MaxItemsInObjectGraph = 10; 
+
+        if (request.responseCode == 200){
+            var data = JsonUtils.ToObject<List<Gacha>>(json);
+
+            GameObject gachaobj = GameObject.Find("GachaInfo");
+
+            foreach (Gacha m in data){
+                GameObject clone = GameObjectUtils.Clone(gachaobj);
+                clone.GetComponentInChildren<Text>().text = m.name;
+                clone.GetComponent<GachaInfo>().Gachaid = m.id;
+            }                    
+
+            Object.Destroy(gachaobj.gameObject);
+        }else{ // todo 配列で返ってきたパターンでちゃんと表示できるようにする
+            ErrorResponse errorobj = JsonUtils.ToObject<ErrorResponse>(json);
+            //errorobj.message = "test";
+            //Messageobj.text = errorobj.ErrorMessage;
+
+            Debug.Log("GETGACHAFAILED");
+        }
     }
 }

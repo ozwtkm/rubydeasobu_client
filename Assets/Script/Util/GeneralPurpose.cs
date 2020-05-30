@@ -111,6 +111,7 @@ public class Planet
 
 public class Dbg
 {
+    //こいつにオブジェクト投げればとりあえず色々表示してくれるよ
     public static void s(object obj, string objectname="OBJECTINFO"){
         Dbg.p(obj, objectname);
         Dbg.m(obj, objectname);
