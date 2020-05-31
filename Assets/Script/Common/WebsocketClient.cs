@@ -95,6 +95,10 @@ public class WebsocketClient: MonoBehaviour {
         ws.Close();
         ws = null;
     }
+
+    public void Leave(){
+        ws.Close();
+    }
 }
 
 
