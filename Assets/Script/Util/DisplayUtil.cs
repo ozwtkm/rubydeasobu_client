@@ -28,7 +28,11 @@ public class DisplayUtil : MonoBehaviour
 
     // 外からこいつを叩く！！
     public void WrappedGetAndRenderInfo(int apikind){
-        StartCoroutine(GetAndRenderInfo(apikind));
+            StartCoroutine(GetAndRenderInfo(apikind));
+    }
+
+    public void WrappedGetAndRenderInfo(int apikind, int optionarg){
+            StartCoroutine(GetAndRenderInfo(apikind, optionarg));
     }
 
 
@@ -56,17 +60,54 @@ public class DisplayUtil : MonoBehaviour
                 return displayhandler;
                 break;
             default:
+                displayhandler = new DisplayDummyHandler();
+                return displayhandler;
+        }
+                
+    }
+
+    // int型の引数が来たとき用のオーバーロード（こういう使い方で合ってるのか？
+    DisplayHandler CreateDisplayHandler(int apikind, int optionarg){
+        DisplayHandler displayhandler;
+        
+        // switchの中で代入したdisplayhandlerは外から参照できないのでswitch内でreturn
+        switch (apikind)
+        {
+            case WALLET:
+                displayhandler = new DisplayWalletInfoHandler();
+                return displayhandler;
+                break;
+            case MONSTER:
+                displayhandler = new DisplayMonsterInfoHandler(optionarg);
+                return displayhandler;
+                break;
+            case USERNAME:
                 displayhandler = new DisplayUsernameInfoHandler();
-                return displayhandler; //何か代入して無理やりreturnする受け皿を用意しないとエラーになる
+                return displayhandler;
+                break;
+            case GACHA:
+                displayhandler = new DisplayGachaInfoHandler();
+                return displayhandler;
+                break;
+            default:
+                displayhandler = new DisplayDummyHandler();
+                return displayhandler;
         }
                 
     }
 
 
-
-
     IEnumerator GetAndRenderInfo(int apikind){
         DisplayHandler displayhandler = CreateDisplayHandler(apikind);
+
+        yield return displayhandler.SendHttpRequest();
+
+        displayhandler.render();
+    }
+
+    //int引数ありのオーバーロど
+    IEnumerator GetAndRenderInfo(int apikind, int optionarg){
+        DisplayHandler displayhandler = CreateDisplayHandler(apikind, optionarg);
 
         yield return displayhandler.SendHttpRequest();
 
@@ -127,11 +168,15 @@ public class Monsters{
 [DataContract]
 public class Monster{
     [DataMember]
+    public int id ;
+
+    [DataMember]
     public string name ;
 
     [DataMember]
     public int atk;
 }
+
 
 [DataContract]
 public class Gacha{
@@ -142,6 +187,15 @@ public class Gacha{
     public string name; 
 }
 
+
+[DataContract]
+public class Party{
+    [DataMember]
+    public int partyid;
+
+    [DataMember]
+    public List<Monster> partyinfo;
+}
 
 
 public abstract class DisplayHandler{
@@ -164,6 +218,12 @@ public abstract class DisplayHandler{
     }
 
     public abstract void render();
+}
+
+
+
+public class DisplayDummyHandler : DisplayHandler{
+    public override void render(){}
 }
 
 
@@ -201,8 +261,10 @@ public class DisplayWalletInfoHandler : DisplayHandler{
 
 //Todo ページング
 public class DisplayMonsterInfoHandler : DisplayHandler{
-    public DisplayMonsterInfoHandler(){
-        url = "http://rqmul.wfm.jp/monsters/0";
+    public DisplayMonsterInfoHandler(int offset=0){
+        string offsetstring = offset.ToString();
+        
+        url = "http://rqmul.wfm.jp/monsters/" + offsetstring;
     }
 
     public override void render(){
