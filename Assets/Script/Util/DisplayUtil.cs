@@ -66,7 +66,7 @@ public class DisplayUtil : MonoBehaviour
                 displayhandler = new DisplayPartyInfoHandler();
                 return displayhandler;
                 break;
-            case RECIPE;
+            case RECIPE:
                 displayhandler = new DisplayRecipeInfoHandler();
                 return displayhandler;
                 break;   
@@ -388,23 +388,27 @@ public class DisplayRecipeInfoHandler : DisplayHandler{
         settings.MaxItemsInObjectGraph = 10; 
 
         if (request.responseCode == 200){
-            var data = JsonUtils.ToObject<List<Gacha>>(json);
+            var data = JsonUtils.ToObject<List<Recipe>>(json);
 
-            GameObject gachaobj = GameObject.Find("Recipe");
+            GameObject recipeobj = GameObject.Find("Recipe");
 
-            foreach (Gacha m in data){
-                GameObject clone = GameObjectUtils.Clone(gachaobj);
+            foreach (Recipe m in data){
+                Dbg.s(m);
+                GameObject clone = GameObjectUtils.Clone(recipeobj);
                 clone.GetComponentInChildren<Text>().text = m.name;
-                clone.GetComponent<GachaInfo>().Gachaid = m.id;
+                clone.GetComponent<RcipeInfo>().id = m.id;
+
+
+    
             }                    
 
-            Object.Destroy(gachaobj.gameObject);
+            Object.Destroy(recipeobj.gameObject);
         }else{ // todo 配列で返ってきたパターンでちゃんと表示できるようにする
             ErrorResponse errorobj = JsonUtils.ToObject<ErrorResponse>(json);
             //errorobj.message = "test";
             //Messageobj.text = errorobj.ErrorMessage;
 
-            Debug.Log("GETGACHAFAILED");
+            Debug.Log("GETRECIPEFAILED");
         }
     }
 }

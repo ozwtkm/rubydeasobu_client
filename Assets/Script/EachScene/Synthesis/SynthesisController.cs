@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SynthesisController : SceneController
 {
+    public bool Executionflag = false;
 
     DisplayUtil displayutil;
 
@@ -15,11 +16,16 @@ public class SynthesisController : SceneController
 
         displayutil.WrappedGetAndRenderInfo(WALLET);
         displayutil.WrappedGetAndRenderInfo(USERNAME);
+        displayutil.WrappedGetAndRenderInfo(RECIPE);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(Executionflag){
+            displayutil.WrappedGetAndRenderInfo(WALLET);
+            Executionflag = false;
+        }
     }
 }

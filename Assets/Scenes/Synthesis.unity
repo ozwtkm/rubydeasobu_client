@@ -1052,6 +1052,7 @@ GameObject:
   - component: {fileID: 1219530442}
   - component: {fileID: 1219530441}
   - component: {fileID: 1219530440}
+  - component: {fileID: 1219530443}
   m_Layer: 5
   m_Name: Recipe
   m_TagString: Untagged
@@ -1158,6 +1159,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1219530438}
   m_CullTransparentMesh: 0
+--- !u!114 &1219530443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219530438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 633a6acd9f7b143728c75d350ecee874, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
 --- !u!224 &1298023137 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1172661053524125236, guid: 1e546992198dd45f5bf7986c827cf2f5,
