@@ -17,6 +17,9 @@ public class DisplayUtil : MonoBehaviour
     private const int MONSTER = 1;
     private const int USERNAME = 2;
     private const int GACHA = 3;
+    private const int PARTY = 4;
+
+    private const int RECIPE = 5;
 
     // ライブラリ的に扱う想定なのでこいつ自身が何かを呼ぶのでなく他オブジェクトからwrappedgetandrenderinfoを叩く形で使う
     void Start()
@@ -59,6 +62,14 @@ public class DisplayUtil : MonoBehaviour
                 displayhandler = new DisplayGachaInfoHandler();
                 return displayhandler;
                 break;
+            case PARTY:
+                displayhandler = new DisplayPartyInfoHandler();
+                return displayhandler;
+                break;
+            case RECIPE;
+                displayhandler = new DisplayRecipeInfoHandler();
+                return displayhandler;
+                break;   
             default:
                 displayhandler = new DisplayDummyHandler();
                 return displayhandler;
@@ -168,6 +179,9 @@ public class Monsters{
 [DataContract]
 public class Monster{
     [DataMember]
+    public int possession_id ;
+
+    [DataMember]
     public int id ;
 
     [DataMember]
@@ -194,8 +208,18 @@ public class Party{
     public int partyid;
 
     [DataMember]
-    public List<Monster> partyinfo;
+    public Monster monsterinfo;
 }
+
+[DataContract]
+public class Recipe{
+    [DataMember]
+    public int id;
+
+    [DataMember]
+    public string name;
+}
+
 
 
 public abstract class DisplayHandler{
@@ -346,4 +370,143 @@ public class DisplayGachaInfoHandler : DisplayHandler{
             Debug.Log("GETGACHAFAILED");
         }
     }
+}
+
+
+
+
+
+public class DisplayRecipeInfoHandler : DisplayHandler{
+    public DisplayRecipeInfoHandler(){
+        url = "http://rqmul.wfm.jp/gradeup";
+    }
+
+    public override void render(){
+        string json = request.downloadHandler.text;
+ 
+        DataContractJsonSerializerSettings settings = new DataContractJsonSerializerSettings();
+        settings.MaxItemsInObjectGraph = 10; 
+
+        if (request.responseCode == 200){
+            var data = JsonUtils.ToObject<List<Gacha>>(json);
+
+            GameObject gachaobj = GameObject.Find("Recipe");
+
+            foreach (Gacha m in data){
+                GameObject clone = GameObjectUtils.Clone(gachaobj);
+                clone.GetComponentInChildren<Text>().text = m.name;
+                clone.GetComponent<GachaInfo>().Gachaid = m.id;
+            }                    
+
+            Object.Destroy(gachaobj.gameObject);
+        }else{ // todo 配列で返ってきたパターンでちゃんと表示できるようにする
+            ErrorResponse errorobj = JsonUtils.ToObject<ErrorResponse>(json);
+            //errorobj.message = "test";
+            //Messageobj.text = errorobj.ErrorMessage;
+
+            Debug.Log("GETGACHAFAILED");
+        }
+    }
+}
+
+
+
+
+
+
+
+public class DisplayPartyInfoHandler : DisplayHandler{
+    public DisplayPartyInfoHandler(){
+        url = "http://rqmul.wfm.jp/party";
+    }
+
+    public override void render(){
+        string json = request.downloadHandler.text;
+
+        if (request.responseCode == 200){
+            List<Party> list = GetPartyInfoFromJson(json);
+
+            GameObject party1infoobj = GameObject.Find("Party1info");
+            party1infoobj.GetComponent<Text>().text = list[0].monsterinfo.name;
+
+            GameObject party2infoobj = GameObject.Find("Party2info");
+            party2infoobj.GetComponent<Text>().text = list[1].monsterinfo.name;
+
+            GameObject party3infoobj = GameObject.Find("Party3info");
+            party3infoobj.GetComponent<Text>().text = list[2].monsterinfo.name;
+
+            party1infoobj.GetComponent<PartyRadio>().id = list[0].partyid;
+            party2infoobj.GetComponent<PartyRadio>().id = list[1].partyid;
+            party3infoobj.GetComponent<PartyRadio>().id = list[2].partyid;
+
+            /*foreach (Party p in list){
+                GameObject monsterobj = GameObject.Find("Monsterinfo");
+                GameObject clone = GameObjectUtils.Clone(monsterobj);
+                clone.GetComponent<Text>().text = p.monsterinfo.name;
+            }*/
+        }else{ // todo 配列で返ってきたパターンでちゃんと表示できるようにする
+            ErrorResponse errorobj = JsonUtils.ToObject<ErrorResponse>(json);
+            //errorobj.message = "test";
+            //Messageobj.text = errorobj.ErrorMessage;
+
+            Debug.Log("GETMONSTERTFAILED");
+        }
+    }
+
+    //こんなものを書く必要はない気がするが、
+    //DataContoractJsonSerializerでどうしてもJsonから抽出がうまく行かなかったので..
+    public List<Party> GetPartyInfoFromJson(string json){
+        Dictionary<string, string> dictionary;
+        //jsonsample   @"{""190"":{""name"":""dragon"",""rarity"":2,""hp"":1000,""mp"":7,""speed"":4,""atk"":1000,""def"":1000},""6"":{""name"":""aaaaaaaaaaaaaaa"",""rarity"":1,""hp"":100,""mp"":7,""speed"":4,""atk"":100,""def"":100},""8"":{""name"":""aaaaaaaaaaaaaaa"",""rarity"":1,""hp"":100,""mp"":7,""speed"":4,""atk"":100,""def"":100}}";
+
+        // パーティの仕様は決まってるので正規表現はハードコードで
+        Match matche = Regex.Match(json, "\"([0-9]+)\":{(.+)},\"([0-9]+)\":{(.+)},\"([0-9])+\":{(.+)}");
+    
+        int party1id = int.Parse(matche.Groups[1].Value);
+        string party1value = matche.Groups[2].Value;
+
+        int party2id = int.Parse(matche.Groups[3].Value);
+        string party2value = matche.Groups[4].Value;
+
+        int party3id = int.Parse(matche.Groups[5].Value);
+        string party3value = matche.Groups[6].Value;
+
+        List<Party> partylist = new List<Party>();
+
+        Party party1info = new Party();
+        party1info.partyid = party1id;
+        party1info.monsterinfo = new Monster();
+
+        Party party2info = new Party();
+        party2info.partyid = party2id;
+        party2info.monsterinfo = new Monster();
+
+        Party party3info = new Party();
+        party3info.partyid = party3id;
+        party3info.monsterinfo = new Monster();
+
+
+        DataContractJsonSerializerSettings settings = new DataContractJsonSerializerSettings();
+        settings.MaxItemsInObjectGraph = 10;
+
+        string party1monsterinfojson = "{" +party1value + "}";
+        Monster monsterinfo1 = JsonUtils.ToObject<Monster>(party1monsterinfojson);
+
+        string party2monsterinfojson = "{" + party2value + "}";
+        Monster monsterinfo2 = JsonUtils.ToObject<Monster>(party2monsterinfojson);
+
+        string party3monsterinfojson = "{" + party3value + "}";
+        Monster monsterinfo3 = JsonUtils.ToObject<Monster>(party3monsterinfojson);
+
+        party1info.monsterinfo = monsterinfo1;
+        party2info.monsterinfo = monsterinfo2;
+        party3info.monsterinfo = monsterinfo3;
+
+        partylist.Add(party1info);
+        partylist.Add(party2info);
+        partylist.Add(party3info);
+
+        return partylist;
+    }
+
 }

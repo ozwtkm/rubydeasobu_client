@@ -11,6 +11,7 @@ public class SceneController : MonoBehaviour
     protected const int MONSTER = 1;
     protected const int USERNAME = 2;
     protected const int GACHA = 3;
+    protected const int PARTY = 4;
 
     // Start is called before the first frame update
     void Start()

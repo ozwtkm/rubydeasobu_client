@@ -49,7 +49,11 @@ public static class JsonUtils
     {
         using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(json)))
         {
-            var serializer = new DataContractJsonSerializer(typeof(T));
+            
+                    DataContractJsonSerializerSettings settings = new DataContractJsonSerializerSettings();
+
+                    settings.UseSimpleDictionaryFormat = true;
+var serializer = new DataContractJsonSerializer(typeof(T));
             return (T)serializer.ReadObject(ms);
         }
     }
