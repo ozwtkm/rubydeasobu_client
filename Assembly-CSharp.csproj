@@ -61,6 +61,7 @@
      <Compile Include="Assets\Script\EachScene\Gacha\GachaController.cs" />
      <Compile Include="Assets\Script\EachScene\Gacha\GachaInfo.cs" />
      <Compile Include="Assets\Script\EachScene\MyPage\MyPageController.cs" />
+     <Compile Include="Assets\Script\EachScene\Register\RegisterController.cs" />
      <Compile Include="Assets\Script\EachScene\Synthesis\RcipeInfo.cs" />
      <Compile Include="Assets\Script\EachScene\Synthesis\SynthesisController.cs" />
      <Compile Include="Assets\Script\Util\DisplayUtil.cs" />
