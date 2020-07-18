@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Synthesis.unity
     guid: 3093dfb1823fc439eac35be329b3f52e
+  - enabled: 1
+    path: Assets/Scenes/QUEST/Quest.unity
+    guid: 4690274441f5045ca9a7d3a664043b6e
   m_configObjects: {}

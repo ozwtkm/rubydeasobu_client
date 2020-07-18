@@ -21,6 +21,8 @@ public class DisplayUtil : MonoBehaviour
 
     private const int RECIPE = 5;
 
+    private const int QUEST = 6;
+
     // ライブラリ的に扱う想定なのでこいつ自身が何かを呼ぶのでなく他オブジェクトからwrappedgetandrenderinfoを叩く形で使う
     void Start()
     {/* 

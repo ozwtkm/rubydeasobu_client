@@ -51,9 +51,9 @@ public static class JsonUtils
         {
             
                     DataContractJsonSerializerSettings settings = new DataContractJsonSerializerSettings();
-
+                    settings.MaxItemsInObjectGraph = 10;
                     settings.UseSimpleDictionaryFormat = true;
-var serializer = new DataContractJsonSerializer(typeof(T));
+            var serializer = new DataContractJsonSerializer(typeof(T));
             return (T)serializer.ReadObject(ms);
         }
     }
