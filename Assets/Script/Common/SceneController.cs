@@ -15,6 +15,8 @@ public class SceneController : MonoBehaviour
 
     protected const int RECIPE = 5;
 
+    protected const int QUEST = 6;
+
     // Start is called before the first frame update
     void Start()
     {

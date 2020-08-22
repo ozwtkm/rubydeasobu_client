@@ -50,9 +50,9 @@ public static class JsonUtils
         using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(json)))
         {
             
-                    DataContractJsonSerializerSettings settings = new DataContractJsonSerializerSettings();
-                    settings.MaxItemsInObjectGraph = 10;
-                    settings.UseSimpleDictionaryFormat = true;
+            DataContractJsonSerializerSettings settings = new DataContractJsonSerializerSettings();
+            settings.MaxItemsInObjectGraph = 10;
+            settings.UseSimpleDictionaryFormat = true;
             var serializer = new DataContractJsonSerializer(typeof(T));
             return (T)serializer.ReadObject(ms);
         }

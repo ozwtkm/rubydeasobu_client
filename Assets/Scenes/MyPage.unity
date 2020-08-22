@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 39033816}
   - component: {fileID: 39033815}
   - component: {fileID: 39033814}
+  - component: {fileID: 39033817}
   m_Layer: 5
   m_Name: Chat
   m_TagString: Untagged
@@ -202,7 +203,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 39033815}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 39033817}
+        m_MethodName: ChangeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Chat
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &39033815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +251,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 39033812}
   m_CullTransparentMesh: 0
+--- !u!114 &39033817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 39033812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b17c2515014ef4b7a8de2d80927e4ae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &61130294
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,6 +475,7 @@ GameObject:
   - component: {fileID: 96941577}
   - component: {fileID: 96941576}
   - component: {fileID: 96941575}
+  - component: {fileID: 96941578}
   m_Layer: 5
   m_Name: Quest
   m_TagString: Untagged
@@ -520,7 +545,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 96941576}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 96941578}
+        m_MethodName: ChangeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Preparation
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &96941576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -557,6 +593,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 96941573}
   m_CullTransparentMesh: 0
+--- !u!114 &96941578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96941573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b17c2515014ef4b7a8de2d80927e4ae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &214329292
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,6 +953,7 @@ GameObject:
   - component: {fileID: 848937425}
   - component: {fileID: 848937424}
   - component: {fileID: 848937423}
+  - component: {fileID: 848937426}
   m_Layer: 5
   m_Name: Gousei
   m_TagString: Untagged
@@ -974,7 +1023,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 848937424}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 848937426}
+        m_MethodName: ChangeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Synthesis
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &848937424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1011,6 +1071,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 848937421}
   m_CullTransparentMesh: 0
+--- !u!114 &848937426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848937421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b17c2515014ef4b7a8de2d80927e4ae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &873803759 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7721086372979824953, guid: be480a150c733484dab2f7e106afe4f3,
@@ -1900,6 +1972,7 @@ GameObject:
   - component: {fileID: 1430539548}
   - component: {fileID: 1430539547}
   - component: {fileID: 1430539546}
+  - component: {fileID: 1430539549}
   m_Layer: 5
   m_Name: Party
   m_TagString: Untagged
@@ -1969,7 +2042,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1430539547}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1430539549}
+        m_MethodName: ChangeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: EditParty
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1430539547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2006,6 +2090,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1430539544}
   m_CullTransparentMesh: 0
+--- !u!114 &1430539549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430539544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b17c2515014ef4b7a8de2d80927e4ae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1435770185
 GameObject:
   m_ObjectHideFlags: 0

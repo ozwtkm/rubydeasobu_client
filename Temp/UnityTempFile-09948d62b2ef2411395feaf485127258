@@ -310,6 +310,8 @@
 "Assets/Script/EachScene/Gacha/GachaController.cs"
 "Assets/Script/EachScene/Gacha/GachaInfo.cs"
 "Assets/Script/EachScene/MyPage/MyPageController.cs"
+"Assets/Script/EachScene/Quest/QuestController.cs"
+"Assets/Script/EachScene/Quest/QuestInfo.cs"
 "Assets/Script/EachScene/Quest/QusetPreparationController.cs"
 "Assets/Script/EachScene/Register/RegisterController.cs"
 "Assets/Script/EachScene/Synthesis/RcipeInfo.cs"

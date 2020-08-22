@@ -71,7 +71,11 @@ public class DisplayUtil : MonoBehaviour
             case RECIPE:
                 displayhandler = new DisplayRecipeInfoHandler();
                 return displayhandler;
-                break;   
+                break;
+            case QUEST:
+                displayhandler = new DisplayQuestInfoHandler();
+                return displayhandler;
+                break;
             default:
                 displayhandler = new DisplayDummyHandler();
                 return displayhandler;
@@ -222,7 +226,14 @@ public class Recipe{
     public string name;
 }
 
+[DataContract]
+public class Quest{
+    [DataMember]
+    public int id;
 
+    [DataMember]
+    public string name;
+}
 
 public abstract class DisplayHandler{
     protected string url;
@@ -516,3 +527,90 @@ public class DisplayPartyInfoHandler : DisplayHandler{
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+public class DisplayQuestInfoHandler : DisplayHandler{
+    public DisplayQuestInfoHandler(){
+        url = "http://rqmul.wfm.jp/dangeon";
+    }
+
+    public override void render(){
+        string json = request.downloadHandler.text;
+ 
+        DataContractJsonSerializerSettings settings = new DataContractJsonSerializerSettings();
+
+        if (request.responseCode == 200){
+            var data = JsonToQuestList(json);
+
+            GameObject questobj = GameObject.Find("Quest");
+
+            //Debug.Log(data.Key);
+                //Debug.Log(data.FirstOrDefault());
+            Debug.Log(data.Count);
+
+            foreach (KeyValuePair<int, string> m in data){
+                //Dbg.s(m);
+                GameObject clone = GameObjectUtils.Clone(questobj);
+                clone.GetComponentInChildren<Text>().text = m.Value;
+                clone.GetComponent<QuestInfo>().id = m.Key;
+            }
+
+            Object.Destroy(questobj.gameObject);
+        }else{ // todo 配列で返ってきたパターンでちゃんと表示できるようにする
+            ErrorResponse errorobj = JsonUtils.ToObject<ErrorResponse>(json);
+            //errorobj.message = "test";
+            //Messageobj.text = errorobj.ErrorMessage;
+
+            Debug.Log("GETQUESTFAILED");
+        }
+    }
+
+
+    private Dictionary<int, string> JsonToQuestList(string json){
+        //{"1":"井上の洞窟"}
+        Dictionary<int, string> aaa = new Dictionary<int, string>();
+
+        if (Regex.IsMatch("ABC", "gewa")){
+            //ダンジョンが複数あり、[{"1":"gwea"},{"2":"hyj"}]みたいな形式で来たときはこっち。()
+            //todo
+
+        }else{
+            Debug.Log(json);
+            //json = "{\"jjjjjjjjjj\":\"gaawwwew\"}";
+            //aaa = JsonUtils.ToObject<Dictionary<string, string>>(json);
+            
+            //不特定数の複数jsonきたときってどうすっかここ
+            Match matche = Regex.Match(json, "{\"([0-9+])\":\"(.+)\"}");
+
+            int questid = int.Parse(matche.Groups[1].Value);
+            string questname = matche.Groups[2].Value;
+
+            aaa.Add(questid, questname);
+
+        }
+
+        return aaa;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
